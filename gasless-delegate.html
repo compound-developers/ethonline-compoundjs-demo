@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delegate by Signature</title>
+</head>
+<body>
+
+  <label>Delegate to:</label>
+  <br />
+  <input type="text" id="address" />
+  <br />
+  <input type="submit" id="delegate" value="Delegate by Signature" />
+
+</body>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@compound-finance/compound-js@0.2.0/dist/browser/compound.min.js"></script>
+
+<script type="text/javascript">
+  
+  const addressBox = document.getElementById('address');
+  const delegateButton = document.getElementById('delegate');
+
+  const provider = window.ethereum;
+
+  provider.enable().then(() => {
+
+    const compound = new Compound(provider);
+
+    const doDelegate = async () => {
+      const delegateAddress = addressBox.value;
+      const sig = await compound.createDelegateSignature(delegateAddress);
+      console.log('sig', sig);
+      // TODO: POST this to my web server
+    };
+
+    delegateButton.onclick = doDelegate;
+
+  });
+
+</script>
+
+</html>

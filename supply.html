@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supply to Compound</title>
+</head>
+<body>
+
+  <label>ETH to supply to the Compound Protocol:</label>
+  <br />
+  <input type="text" id="amount" />
+  <br />
+  <input type="submit" id="supply" value="Supply" />
+
+</body>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@compound-finance/compound-js@0.2.0/dist/browser/compound.min.js"></script>
+
+<script type="text/javascript">
+  
+  const supplyAmountBox = document.getElementById('amount');
+  const supplyButton = document.getElementById('supply');
+
+  const provider = window.ethereum;
+
+  provider.enable().then(() => {
+
+    const compound = new Compound(provider);
+
+    const doSupply = async () => {
+      const ethToSupply = +supplyAmountBox.value;
+      const trx = await compound.supply(Compound.ETH, ethToSupply);
+      console.log('trx', trx);
+      await trx.wait(1);
+      // TODO: show on the screen the the tx completed
+    };
+
+    supplyButton.onclick = doSupply;
+
+  });
+
+</script>
+
+</html>
